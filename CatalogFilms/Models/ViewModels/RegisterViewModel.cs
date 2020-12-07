@@ -9,8 +9,8 @@ namespace CatalogFilms.Models
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Год рождения")]
-        public int Year { get; set; }
+        [Display(Name = "ФИО")]
+        public string FIO { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
