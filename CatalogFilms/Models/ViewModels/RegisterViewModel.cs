@@ -5,6 +5,7 @@ namespace CatalogFilms.Models
     public class RegisterViewModel
     {
         [Required]
+        [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Введите корректный адрес электронной почты")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

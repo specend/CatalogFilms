@@ -1,0 +1,29 @@
+﻿@model CatalogFilms.Models.RegisterViewModel
+<h2>Регистрация пользователя</h2>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly">
+        <div>
+            <label asp-for="Email" /><br />
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div>
+            <label asp-for="FIO" /><br />
+            <input asp-for="FIO" />
+            <span asp-validation-for="FIO"></span>
+        </div>
+        <div>
+            <label asp-for="Password" /><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div>
+            <label asp-for="PasswordConfirm" /><br />
+            <input asp-for="PasswordConfirm" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <div>
+            <input type="submit" value="Регистрация" />
+        </div>
+    </div>
+</form>
