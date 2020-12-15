@@ -1,10 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogFilms.Models
 {
+    [Table("Film")]
     public class Film
     {
+
         [Key]
         public int Id_Film { get; set; }
 
@@ -27,9 +31,10 @@ namespace CatalogFilms.Models
         [Required(ErrorMessage = "Загрузите постер фильма")]
         [Display(Name = "Постер")]
         public byte[] Poster { get; set; }
-        public int? Id_User { get; set; }
 
-        [ForeignKey("Id_User")]
-        public User User { get; set; }
+        public string Id_User { get; set; }
+
+        //[ForeignKey("Id_User")]
+        //public virtual User User { get; set; }
     }
 }

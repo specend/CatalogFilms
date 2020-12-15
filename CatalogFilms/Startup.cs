@@ -32,8 +32,12 @@ namespace CatalogFilms
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultUI().AddDefaultTokenProviders();
+
+            services.AddDbContext<FilmContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<User>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

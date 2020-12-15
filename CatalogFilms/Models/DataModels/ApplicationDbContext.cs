@@ -9,9 +9,10 @@ namespace CatalogFilms.Models
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         //public DbSet<Film> Film { get; set; }
+
     }
 }
