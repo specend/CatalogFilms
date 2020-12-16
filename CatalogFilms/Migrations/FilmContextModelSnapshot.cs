@@ -41,6 +41,9 @@ namespace CatalogFilms.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NamePoster")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Poster")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");

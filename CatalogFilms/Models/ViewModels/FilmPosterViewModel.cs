@@ -1,17 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogFilms.Models
 {
-    [Table("Film")]
-    public class Film
+    public class FilmPosterViewModel
     {
-
-        [Key]
-        public int Id_Film { get; set; }
-
         [Required(ErrorMessage = "Введите название фильма")]
         [Display(Name = "Фильм")]
         public string Name { get; set; }
@@ -30,13 +23,6 @@ namespace CatalogFilms.Models
 
         public string NamePoster { get; set; }
 
-        [Required(ErrorMessage = "Загрузите постер фильма")]
-        [Display(Name = "Постер")]
-        public byte[] Poster { get; set; }
-
-        public string Id_User { get; set; }
-
-        //[ForeignKey("Id_User")]
-        //public virtual User User { get; set; }
+        public IFormFile Poster { get; set; }
     }
 }

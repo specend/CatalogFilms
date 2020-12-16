@@ -17,6 +17,7 @@ namespace CatalogFilms.Migrations
                     Description = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
                     Director = table.Column<string>(nullable: false),
+                    NamePoster = table.Column<string>(nullable: true),
                     Poster = table.Column<byte[]>(nullable: false),
                     Id_User = table.Column<string>(nullable: true)
                 },

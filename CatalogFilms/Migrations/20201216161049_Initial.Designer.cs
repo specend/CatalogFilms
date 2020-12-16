@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogFilms.Migrations
 {
     [DbContext(typeof(FilmContext))]
-    [Migration("20201215164714_Initial")]
+    [Migration("20201216161049_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace CatalogFilms.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NamePoster")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Poster")

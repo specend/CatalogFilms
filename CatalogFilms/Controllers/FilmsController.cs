@@ -6,16 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CatalogFilms.Models;
+using Microsoft.AspNetCore.Identity;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace CatalogFilms.Controllers
 {
     public class FilmsController : Controller
     {
         private readonly FilmContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public FilmsController(FilmContext context)
+        public FilmsController(FilmContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Films
@@ -53,13 +59,28 @@ namespace CatalogFilms.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_Film,Name,Description,Year,Director,Poster,Id_User")] Film film)
+        public async Task<IActionResult> Create(FilmPosterViewModel vm)
         {
+            Film film = new Film() { Name = vm.Name, Description = vm.Description, Year = vm.Year, Director = vm.Director};
             if (ModelState.IsValid)
             {
-                _context.Add(film);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var user = await _userManager.GetUserAsync(User);
+                film.Id_User = user.Id.ToString();
+                if (vm.Poster != null)
+                {
+                    byte[] imageData = null;
+                    string path = vm.Poster.FileName;
+                    // считываем переданный файл в массив байтов
+                    using (var binaryReader = new BinaryReader(vm.Poster.OpenReadStream()))
+                    {
+                        imageData = binaryReader.ReadBytes((int)vm.Poster.Length);
+                    }
+                    film.Poster = imageData;
+                    film.NamePoster = path;
+                }
+                    _context.Add(film);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");                
             }
             return View(film);
         }
@@ -110,7 +131,7 @@ namespace CatalogFilms.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(film);
         }
@@ -141,7 +162,7 @@ namespace CatalogFilms.Controllers
             var film = await _context.Film.FindAsync(id);
             _context.Film.Remove(film);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool FilmExists(int id)
