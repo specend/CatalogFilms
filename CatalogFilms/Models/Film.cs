@@ -36,5 +36,7 @@ namespace CatalogFilms.Models
 
         public string Id_User { get; set; }
 
+        //[ForeignKey("Id_User")]
+        //public virtual User User { get; set; }
     }
 }
