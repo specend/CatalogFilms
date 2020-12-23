@@ -7,60 +7,33 @@
 
 <h1>Index</h1>
 
-@if (User.Identity.IsAuthenticated)
-{
-<p>
-    <a asp-controller="Films" asp-action="Create">Create New</a>
-</p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Poster)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Director)
-            </th>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width"/>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p>
+            <a asp-controller="Films" asp-action="Create">Create New</a>
+        </p>
+    }
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                <img style='width:60px; height:80px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Poster))" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Director)
-            </td>
+    
 
-            <td>
-                <a asp-controller="Films" asp-action="Edit" asp-route-id="@item.Id_Film">Edit</a> |
-                <a asp-controller="Films" asp-action="Details" asp-route-id="@item.Id_Film">Details</a> |
-                <a asp-controller="Films" asp-action="Delete" asp-route-id="@item.Id_Film">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <a asp-controller="Films" asp-action="Details" asp-route-id="@item.Id_Film">
+                <img style='width:240px; height:375px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Poster))" />
+                <p align="left">@item.Name</p>
+            </a>
+        </div>
+    }
+    </div>
+    
+</body>
+</html>

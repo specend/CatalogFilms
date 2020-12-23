@@ -13,12 +13,10 @@ namespace CatalogFilms.Controllers
     {
 
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
 
         public ChangeDateController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -31,17 +29,17 @@ namespace CatalogFilms.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
 
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    return View("ForgotPasswordConfirmation");
-                }
+                //if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                //{
+                //    return View("ForgotPasswordConfirmation");
+                //}
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action("ChangePassword", "ChangeDate", new { userId = user.Id, code = code, email = user.Email}, 
@@ -57,9 +55,9 @@ namespace CatalogFilms.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null, string email = null)
+        public IActionResult ChangePassword(string code = null, string email = null)
         {
-            return code == null  && email == null? View("Error") : View();
+            return code == null ? View("Error") : View();
         }
 
 
@@ -75,13 +73,13 @@ namespace CatalogFilms.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return View("ResetPasswordConfirmation");
+                return View("ChangePasswordConfirmation");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.NewPassword);
             if (result.Succeeded)
             {
-                return View("ResetPasswordConfirmation");
+                return View("ChangePasswordConfirmation");
             }
             foreach (var error in result.Errors)
             {
