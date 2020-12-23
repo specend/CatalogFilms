@@ -1,49 +1,50 @@
 ﻿@model CatalogFilms.Models.Film
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await UserManager.FindByIdAsync(Model.Id_User);
+
 }
 
-<h1>Details</h1>
+<h1>@Model.Name (@Model.Year)</h1>
 
 <div>
-    <h4>Film</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Director)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Director)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Poster)
-        </dt>
-        <dd class = "col-sm-10">
-            <img style='width:300px; height:400px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Poster))" />
-        </dd>
-    </dl>
+    <section class="section works" id="works">
+        <div class="container">
+            <div class="row">
+                <div class="works-item col-md-12 col-xs-12">
+                    <div class="row">
+                        <div class="works-image col-xs-5">
+                            <img style='width:320px; height:500px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Poster))">
+                            <div class="overlay"></div>
+                        </div>
+                        <div class="item-info col-xs-7" style="margin-left:20px">
+                            <h2><b>@Html.DisplayFor(model => model.Name)</b></h2>
+                            <h4 class="item-name">@Html.DisplayNameFor(model => model.Director)</h4>
+                            <p class="item-type">@Html.DisplayFor(model => model.Director)</p>
+                            <h4 class="item-name">@Html.DisplayNameFor(model => model.Year)</h4>
+                            <p class="item-type">@Html.DisplayFor(model => model.Year)</p>
+                            <h4 class="item-name">Создано</h4>
+                            <p class="item-type">@user.Email</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <h4 class="item-name">@Html.DisplayNameFor(model => model.Description)</h4>
+    <p class="item-type">@Html.DisplayFor(model => model.Description)</p>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id_Film">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (user.Email == User.Identity.Name)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id_Film">Редактировать</a>
+        <label>|</label>
+    }
+    <a asp-action="Index" asp-controller="Home">На главную</a>
 </div>
